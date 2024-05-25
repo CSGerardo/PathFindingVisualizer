@@ -1,6 +1,6 @@
 
 import { useEffect, useState } from 'react';
-import './App.css'
+import './App.css';
 
 export default function MazeGrid({width=15, height=15}) {
 
@@ -13,7 +13,7 @@ export default function MazeGrid({width=15, height=15}) {
 
   function bfs(startNode) {
     let queue=[startNode];
-    let visited=new Set(`${startNode[0]}, ${startNode[1]}`)
+    let visited=new Set(`${startNode[0]}, ${startNode[1]}`);
 
     function makeCellBlue(rowNumber, colNumber){
       setMaze((prevMaze)=>prevMaze.map((row, rowIndex)=>
@@ -24,14 +24,14 @@ export default function MazeGrid({width=15, height=15}) {
           return cell
         })
       ));
-    };
+    }
 
     function step(){
       if(queue.length===0){
         return;
       }
       if(queue[0]!=startNode){
-        makeCellBlue(queue[0][0], queue[0][1])
+        makeCellBlue(queue[0][0], queue[0][1]);
       }
       const [rowNumber, colNumber]=queue.shift();
 
@@ -46,33 +46,33 @@ export default function MazeGrid({width=15, height=15}) {
             queue.push([nextRow, nextCol]);
           }else if(maze[nextRow][nextCol]==="end"){
               console.log("Path found!");
-              return true
-            };
-        };
-      };      
+              return true;
+            }
+        }
+      }   
       const timeOut=setTimeout(step, 100);
-      setTimeOutIDs((peviousTimeOutIds)=>[...peviousTimeOutIds, timeOut])
-    };
+      setTimeOutIDs((peviousTimeOutIds)=>[...peviousTimeOutIds, timeOut]);
+    }
 
     step();
-    return false
+    return false;
 
-  };
+  }
 
   function dfs(startNode) {
     let stack=[startNode];
-    let visited=new Set(`${startNode[0]}, ${startNode[1]}`)
+    let visited=new Set(`${startNode[0]}, ${startNode[1]}`);
 
     function makeCellBlue(rowNumber, colNumber){
       setMaze((prevMaze)=>prevMaze.map((row, rowIndex)=>
         row.map((cell, cellIndex)=>{
           if(rowIndex===rowNumber && cellIndex===colNumber){
-            return cell==="end" ? "end" : "nextNode"
+            return cell==="end" ? "end" : "nextNode";
           };
-          return cell
+          return cell;
         })
       ));
-    };
+    }
 
     function step(){
       if(stack.length===0){
@@ -94,18 +94,18 @@ export default function MazeGrid({width=15, height=15}) {
             stack.push([nextRow, nextCol]);
           }else if(maze[nextRow][nextCol]==="end"){
               console.log("Path found!");
-              return true
-            };
-        };
-      };      
+              return true;
+            }
+        }
+      };     
       const timeOut=setTimeout(step, 100);
-      setTimeOutIDs((peviousTimeOutIds)=>[...peviousTimeOutIds, timeOut])
-    };
+      setTimeOutIDs((peviousTimeOutIds)=>[...peviousTimeOutIds, timeOut]);
+    }
 
     step();
-    return false
+    return false;
 
-  };
+  }
 
   function generateMaze(height, width){
     let matrix=[];
@@ -114,18 +114,18 @@ export default function MazeGrid({width=15, height=15}) {
       let row=[];
       for(let j=0; j<width; j++){
         row.push("wall");
-      };
+      }
       matrix.push(row);
-    };
+    }
 
     const dirs=[[-1,0], [0,1], [1,0], [0,-1]];
 
     function isCellValid(rowNumber, colNumber){
-      return rowNumber>=0 && colNumber>=0 && rowNumber<height && colNumber<width && matrix[rowNumber][colNumber]==="wall" 
+      return rowNumber>=0 && colNumber>=0 && rowNumber<height && colNumber<width && matrix[rowNumber][colNumber]==="wall"; 
     }
 
     function carvePath(rowNumber, colNumber){
-      matrix[rowNumber][colNumber]="path"
+      matrix[rowNumber][colNumber]="path";
 
       const directions=dirs.sort(()=>Math.random()-0.5);
 
@@ -135,16 +135,16 @@ export default function MazeGrid({width=15, height=15}) {
         if(isCellValid(nextRow, nextCol)){
           matrix[rowNumber+upOrDown][colNumber+leftOrRight]="path";
           carvePath(nextRow, nextCol);
-        };
-      };
-    };
+        }
+      }
+    }
 
     carvePath(1,1);
 
     matrix[1][0]="start";
     matrix[height-2][width-1]="end";
     setMaze(matrix);
-  };
+  }
 
   function refreshMaze(){
     timeOutIDs.forEach(clearTimeout);
@@ -170,5 +170,5 @@ export default function MazeGrid({width=15, height=15}) {
       </div>
     </div>
   );
-}
+};
 
